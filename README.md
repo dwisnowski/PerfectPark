@@ -18,7 +18,8 @@ See the full **[wiring diagram](docs/wiring.md)** for pin connections, voltage
 dividers, breadboard layout, and mounting guidance.
 
 See the **[parts shopping list](docs/shopping-list.md)** for quantities, buying
-notes, estimated cost, and **specific Amazon & Adafruit product links**.
+notes, estimated cost, and specific links for **Amazon**, **Adafruit**, and
+**Micro Center (Westmont, IL)**.
 
 | Part | Qty | Notes |
 |------|-----|-------|

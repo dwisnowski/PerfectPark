@@ -91,6 +91,50 @@ and match.
 
 ---
 
+## Micro Center — Westmont, IL (local pickup)
+
+If you are near the western Chicago suburbs, **Micro Center Westmont** is a good
+option for same-day pickup. Browse the [DIY / Maker section](https://www.microcenter.com/search/search_results.aspx?N=4294939904) and set your store to **Westmont** to check stock before you drive over.
+
+### Store info
+
+| | |
+|---|---|
+| **Store** | [Micro Center Westmont](https://www.microcenter.com/site/stores/westmont.aspx) |
+| **Address** | 80 E Ogden Ave, Westmont, IL 60559 |
+| **Phone** | (331) 265-7475 |
+| **Hours** | Mon–Sat 10:00 AM – 9:00 PM · Sun 11:00 AM – 6:00 PM |
+
+**Tip:** On each product page, select **Westmont** as your store to see in-stock
+counts. Some items ship to the store in 5–7 days if not on the shelf.
+
+### Recommended Micro Center parts
+
+| Part | Qty | Product | Notes |
+|------|-----|---------|-------|
+| ESP32-S3 board | 1 | [Adafruit Metro ESP32-S3 — 16 MB flash, 8 MB PSRAM](https://www.microcenter.com/product/676293/adafruit-industries-metro-esp32-s3-with-16-mb-flash-8-mb-psram) | Best in-store ESP32-S3 match. **GPIO pins differ** from DevKitC-1 — update `config.h` if you use this board. |
+| HC-SR04 sensor | 3 | [Leo Sales HC-SR04 Ultrasonic Sensor Module](https://www.microcenter.com/product/613642/leo-sales-ltd-ultrasonic-sensor-module) | One per parking spot. |
+| 1 kΩ resistors | 3 | [NTE 1/4 W 1 kΩ — 4 pack](https://www.microcenter.com/product/390158/nte-electronics-1-4-watt-1k-ohm-resistor-4-pack) | Echo divider (high side). |
+| 2 kΩ / 2.2 kΩ resistors | 3 | [Inland 1/4 W 1% resistor assortment — 480 pack](https://www.microcenter.com/product/618897/inland-1-4-watt-1-resistors-480-pack) | Includes many values; use **2 kΩ or 2.2 kΩ** for the Echo divider low side. |
+| Breadboard + components | 1 | [Inland Pi Kit Deluxe Parts Pack](https://www.microcenter.com/product/603754/inland-pi-kit-deluxe-parts-pack) | Breadboard, jumpers, 1 kΩ resistors, 100 nF caps, and more. |
+| Breadboard power (optional) | 1 | [Inland Breadboard 5 V / 3.3 V Power Supply Module](https://www.microcenter.com/product/618900/inland-breadboard-5v-3v-power-supply-module) | USB-powered 5 V rail for sensors on the breadboard. |
+| USB wall adapter | 1 | Check in-store phone charger aisle | Micro Center does not always list a dedicated 5 V / 2 A adapter online; any **5 V USB adapter rated ≥ 2 A** works. |
+
+### What Micro Center may not carry
+
+- **ESP32-S3-DevKitC-1** (the exact board in `platformio.ini`) — often **not** on the shelf; the Metro ESP32-S3 above is the usual substitute.
+- Full **3-pack HC-SR04** bundles — buy **three** single sensors instead.
+
+### Westmont shopping list (3-spot)
+
+1. [Metro ESP32-S3](https://www.microcenter.com/product/676293/adafruit-industries-metro-esp32-s3-with-16-mb-flash-8-mb-psram) × 1
+2. [HC-SR04](https://www.microcenter.com/product/613642/leo-sales-ltd-ultrasonic-sensor-module) × 3
+3. [Inland Pi Kit Deluxe](https://www.microcenter.com/product/603754/inland-pi-kit-deluxe-parts-pack) × 1 (breadboard, wires, caps, extra 1 kΩ)
+4. [Inland resistor assortment](https://www.microcenter.com/product/618897/inland-1-4-watt-1-resistors-480-pack) × 1 (for 2 kΩ / 2.2 kΩ divider resistors)
+5. USB data cable + 5 V / 2 A wall adapter (in-store or from Amazon/Adafruit links above)
+
+---
+
 ## Quick checklist (3-spot build)
 
 Copy this into your cart or notes:
@@ -224,7 +268,7 @@ not already have a breadboard and jumper wires.
 
 ## Where to buy
 
-See **[Recommended products (Amazon & Adafruit)](shopping-list.md#recommended-products-amazon--adafruit)** for specific part links.
+See **[Recommended products (Amazon & Adafruit)](shopping-list.md#recommended-products-amazon--adafruit)** and **[Micro Center Westmont, IL](shopping-list.md#micro-center--westmont-il-local-pickup)** for specific part links.
 
 Other reputable sources:
 
