@@ -6,6 +6,89 @@ counts if you build fewer spots.
 
 For wiring and GPIO details, see [wiring.md](wiring.md).
 
+**Prices and stock change often.** Verify the listing matches the specs in the
+Notes column before you buy.
+
+---
+
+## Recommended products (Amazon & Adafruit)
+
+These are specific picks that match PerfectPark v1. Buy from either store, or mix
+and match.
+
+### Microcontroller (pick one)
+
+| Part | Qty | Amazon | Adafruit | Notes |
+|------|-----|--------|----------|-------|
+| ESP32-S3-DevKitC-1 **N8R8** (8 MB flash, 8 MB PSRAM) | 1 | [Stemedu ESP32-S3-DevKitC-1 N8R8](https://www.amazon.com/Stemedu-ESP32-S3-DevKitC-1-Development-ESP32-S3-WROOM-1-Microcontroller/dp/B09VBFMTDS) | [ESP32-S3-DevKitC-1 — select **8MB Flash 8MB PSRAM** variant](https://www.adafruit.com/product/5312) | **Best match** for the firmware `platformio.ini` target. Confirm listing says **ESP32-S3** with **8 MB PSRAM**. |
+| ESP32-S3 DevKitC-1 (Espressif listing) | 1 | [Espressif ESP32-S3-DevKitC-1-N8R8](https://www.amazon.com/Espressif-ESP32-S3-DevKitC-1-N8R8-Development-Board/dp/B09MHP42LY) | — | Official Espressif board. Check USB connector type (Micro-USB vs USB-C) and buy the matching cable. |
+| Adafruit Metro ESP32-S3 (alternate) | 1 | — | [Metro ESP32-S3 — 16 MB flash, 8 MB PSRAM](https://www.adafruit.com/product/5500) | Works with Arduino, but **GPIO pins differ** from DevKitC-1. Update `config.h` if you use this board. |
+
+---
+
+### Ultrasonic sensors (3-spot build)
+
+| Part | Qty | Amazon | Adafruit | Notes |
+|------|-----|--------|----------|-------|
+| HC-SR04 module | 3 | [Ferwooh 3-pack HC-SR04 + brackets + wires](https://www.amazon.com/Ferwooh-Ultrasonic-Distance-Measuring-Mounting/dp/B0D1MDP9V3) | [HC-SR04 + 2× 10 kΩ resistors](https://www.adafruit.com/product/3942) × **3** | One sensor per parking spot. Adafruit units include **10 kΩ** divider resistors (not 1 kΩ/2 kΩ); they work, but buy separate 1 kΩ + 2.2 kΩ packs below for our preferred divider. |
+
+---
+
+### Resistors (Echo voltage dividers)
+
+| Part | Qty | Amazon | Adafruit | Notes |
+|------|-----|--------|----------|-------|
+| 1 kΩ resistor | 3 | Included in [starter kit below](https://www.amazon.com/dp/B09FDC6BX6) | [1.0 kΩ — 25 pack](https://www.adafruit.com/product/4294) | One divider set per sensor. |
+| 2 kΩ resistor | 3 | Included in [starter kit below](https://www.amazon.com/dp/B09FDC6BX6) | [2.2 kΩ — 25 pack](https://www.adafruit.com/product/2782) | Adafruit sells **2.2 kΩ** (not 2 kΩ); it works fine for the Echo divider. |
+
+---
+
+### Breadboard & jumper wires
+
+| Part | Qty | Amazon | Adafruit | Notes |
+|------|-----|--------|----------|-------|
+| 830 tie-point breadboard + wire kit | 1 | [Electronics Component Fun Kit](https://www.amazon.com/dp/B09FDC6BX6) | [Half-size breadboard + 78 jumper wires](https://www.adafruit.com/product/3314) | Amazon kit also includes **1 kΩ/2 kΩ resistors** and **100 nF caps** — good single-cart option. |
+| Full-size breadboard (optional) | 1 | Search `830 tie point breadboard` on Amazon | [Full Sized Premium Breadboard — 830 tie points](https://www.adafruit.com/product/239) | More room for 3 sensors + ESP32. |
+| Male–female jumper wires | 1 | Included in kits above | [Premium M/F jumper wires — 40 × 6"](https://www.adafruit.com/product/826) | Useful for reaching HC-SR04 modules. |
+| Male–male jumper wires | 1 | Included in kits above | [Breadboarding wire bundle — 75 wires](https://www.adafruit.com/product/153) | For breadboard prototyping. |
+
+---
+
+### Power & USB
+
+| Part | Qty | Amazon | Adafruit | Notes |
+|------|-----|--------|----------|-------|
+| USB cable (data-capable) | 1 | Often included with ESP32 board; or search `USB-A to USB-C data cable` | [USB-A to USB-C — 1 m / 3 ft](https://www.adafruit.com/product/4474) | Must support **data**, not charge-only. Match connector to your DevKit (USB-C on most current boards). |
+| 5 V USB wall adapter (≥ 2 A) | 1 | [Amazon Basics 5 V 2.4 A USB-A adapter](https://www.amazon.com/AmazonBasics-One-Port-USB-Wall-Charger/dp/B0773BHCV1) | [5 V 2 A switching supply — USB-A port](https://www.adafruit.com/product/1994) | Pair with the USB cable above. **2 A** recommended with 3 sensors. |
+
+---
+
+### Optional but recommended
+
+| Part | Qty | Amazon | Adafruit | Notes |
+|------|-----|--------|----------|-------|
+| 100 nF (0.1 µF) ceramic capacitor | 3 | Included in [Electronics Component Fun Kit](https://www.amazon.com/dp/B09FDC6BX6) | [0.1 µF capacitors — 10 pack](https://www.adafruit.com/product/753) | Place across VCC/GND at each HC-SR04 for cleaner readings. |
+
+---
+
+### Fastest cart options
+
+**Amazon — buy in two items**
+
+1. [Stemedu ESP32-S3-DevKitC-1 N8R8](https://www.amazon.com/Stemedu-ESP32-S3-DevKitC-1-Development-ESP32-S3-WROOM-1-Microcontroller/dp/B09VBFMTDS)
+2. [Ferwooh 3× HC-SR04 kit](https://www.amazon.com/Ferwooh-Ultrasonic-Distance-Measuring-Mounting/dp/B0D1MDP9V3)
+3. [Electronics Component Fun Kit](https://www.amazon.com/dp/B09FDC6BX6) (breadboard, resistors, wires, caps)
+4. [Amazon Basics 5 V 2.4 A adapter](https://www.amazon.com/AmazonBasics-One-Port-USB-Wall-Charger/dp/B0773BHCV1) + USB cable if not included with the ESP32
+
+**Adafruit — buy individually**
+
+1. [ESP32-S3-DevKitC-1 — 8MB Flash 8MB PSRAM](https://www.adafruit.com/product/5312)
+2. [HC-SR04 × 3](https://www.adafruit.com/product/3942)
+3. [1 kΩ resistors](https://www.adafruit.com/product/4294) + [2.2 kΩ resistors](https://www.adafruit.com/product/2782)
+4. [Breadboard + jumper kit](https://www.adafruit.com/product/3314)
+5. [USB-A to USB-C cable](https://www.adafruit.com/product/4474) + [5 V 2 A adapter](https://www.adafruit.com/product/1994)
+6. [0.1 µF caps (optional)](https://www.adafruit.com/product/753)
+
 ---
 
 ## Quick checklist (3-spot build)
@@ -141,16 +224,15 @@ not already have a breadboard and jumper wires.
 
 ## Where to buy
 
-Any reputable electronics retailer works. Common options:
+See **[Recommended products (Amazon & Adafruit)](shopping-list.md#recommended-products-amazon--adafruit)** for specific part links.
 
-- [Adafruit](https://www.adafruit.com/) — search ESP32-S3 and HC-SR04
+Other reputable sources:
+
 - [SparkFun](https://www.sparkfun.com/) — ESP32-S3 boards and jumper kits
-- [Amazon](https://www.amazon.com/) — fast shipping; verify board is **ESP32-S3-DevKitC-1**
-- [AliExpress / Banggood](https://www.aliexpress.com/) — lower unit cost, longer shipping
 - [DigiKey](https://www.digikey.com/) / [Mouser](https://www.mouser.com/) — reliable parts for resistors and caps
 
 **Before checkout:** Confirm the ESP32 board listing says **S3** (not ESP32 classic
-or ESP32-C3).
+or ESP32-C3) and includes enough **PSRAM** for the web dashboard (8 MB recommended).
 
 ---
 
