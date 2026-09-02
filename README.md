@@ -17,6 +17,9 @@ self-hosted web dashboard, and a JSON status API.
 See the full **[wiring diagram](docs/wiring.md)** for pin connections, voltage
 dividers, breadboard layout, and mounting guidance.
 
+See the **[parts shopping list](docs/shopping-list.md)** for quantities, buying
+notes, and estimated cost.
+
 | Part | Qty | Notes |
 |------|-----|-------|
 | ESP32-S3 DevKitC-1 | 1 | N16R8 with PSRAM recommended |
@@ -48,7 +51,8 @@ dividers, breadboard layout, and mounting guidance.
 ```
 PerfectPark/
 ├── docs/
-│   └── wiring.md       # hardware wiring diagram
+│   ├── wiring.md         # hardware wiring diagram
+│   └── shopping-list.md  # parts list and buying guide
 ├── firmware-arduino/   # v1 firmware (PlatformIO + Arduino)
 ├── firmware-esp-idf/   # future ESP-IDF port
 ├── web/                # dashboard source files

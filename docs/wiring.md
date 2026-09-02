@@ -205,6 +205,9 @@ capacitor between VCC and GND at each HC-SR04 module.
 
 ## Bill of materials
 
+See [shopping-list.md](shopping-list.md) for the full parts list, quantities for
+2-spot and 3-spot builds, and buying notes.
+
 | Part | Qty (3-spot) |
 |------|----------------|
 | ESP32-S3 DevKitC-1 | 1 |
@@ -226,4 +229,5 @@ DevKit board revision.
 ## Related docs
 
 - [README](../README.md) — build, flash, and API overview
+- [Shopping list](shopping-list.md) — parts to buy
 - [config.h](../firmware-arduino/include/config.h) — pin and distance thresholds
