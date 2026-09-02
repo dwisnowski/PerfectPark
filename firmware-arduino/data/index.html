@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PerfectPark</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <div>
+          <p class="eyebrow">PerfectPark v1</p>
+          <h1>Garage Parking Status</h1>
+        </div>
+        <div class="meta">
+          <span id="connection-status" class="badge badge-neutral">Connecting…</span>
+          <span id="last-updated" class="muted">Waiting for data</span>
+        </div>
+      </header>
+
+      <section class="summary" id="summary">
+        <div class="summary-card">
+          <span class="summary-label">Occupied</span>
+          <strong id="occupied-count">-</strong>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Available</span>
+          <strong id="available-count">-</strong>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Detect Range</span>
+          <strong id="detect-range">-</strong>
+        </div>
+      </section>
+
+      <section class="spots-grid" id="spots-grid"></section>
+
+      <footer class="footer muted">
+        Auto-refreshes every 2 seconds · Target park distance ~3 ft
+      </footer>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
