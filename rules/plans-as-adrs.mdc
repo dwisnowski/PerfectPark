@@ -1,0 +1,23 @@
+---
+description: Persist Cursor architecture plans as ADRs under docs/adr/
+alwaysApply: true
+---
+
+# Plans as ADRs
+
+When creating or finalizing a Cursor plan that records an architecture or product decision for HyperSync:
+
+1. Write (or update) an ADR under `docs/adr/` using the next `NNNN-slug.md` number.
+2. Use the existing shape: **Status**, **Context**, **Decision**, **Consequences**.
+3. Update the ADR index in `docs/README.md` in the same change.
+4. Cross-link related ADRs when a decision extends an earlier one.
+
+## Source of truth
+
+- **Repo documentation** lives in `docs/adr/`.
+- Cursor may still keep UI plan files under `.cursor/plans/` — that path is not controllable by rules and is **not** project documentation. Do not rely on it for handoff or history.
+
+## Keep ADRs decision-focused
+
+- Do **not** dump raw implementation todo lists, PR checklists, or ephemeral progress into ADRs.
+- Capture the problem, the choice, and the consequences. Point to code paths only when it clarifies the decision.
