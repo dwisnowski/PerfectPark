@@ -207,8 +207,8 @@ or screw-terminal breakout later.
 | USB-C cable (data-capable) | 1 | Required for flashing and power | `USB-C data cable` |
 | 5 V USB wall adapter | 1 | **1 A minimum**; 2 A preferred with 3 sensors | `5V 2A USB charger` |
 
-Power the ESP32-S3 and all HC-SR04 modules from the same 5 V supply with shared
-GND.
+Power the ESP32-S3 and all HC-SR04 modules from the same USB supply: board
+**VBUS** (5 V) to each sensor VCC, with shared GND.
 
 ---
 

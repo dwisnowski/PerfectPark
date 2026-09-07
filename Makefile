@@ -4,6 +4,8 @@
 #   make help
 #   make on-mac-install
 #   make on-esp32-deploy
+#
+# Python: 3.10–3.13 required (3.12 recommended / auto-installed).
 
 .DEFAULT_GOAL := help
 
@@ -11,6 +13,7 @@ ROOT        := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 FIRMWARE    := $(ROOT)/firmware-arduino
 WEB         := $(ROOT)/web
 DATA        := $(FIRMWARE)/data
+SCRIPTS     := $(ROOT)/scripts
 PIO         ?= pio
 ESP32_ENV   ?= esp32-s3-devkitc-1
 ESP32_HOST  ?= perfectpark.local
@@ -27,14 +30,14 @@ help:
 	@echo ""
 	@echo "  help                 Show this help"
 	@echo ""
-	@echo "on-windows (develop from Windows)"
-	@echo "  on-windows-install   Install PlatformIO Core (pip)"
+	@echo "on-windows (develop from Windows / Git Bash)"
+	@echo "  on-windows-install   Ensure Python 3.12 + PlatformIO (winget/pip)"
 	@echo "  on-windows-build     Sync web assets and build firmware"
 	@echo "  on-windows-deploy    Flash LittleFS + firmware to the ESP32"
 	@echo "  on-windows-ssh       SSH into the ESP32 (ESP32_HOST / ESP32_USER)"
 	@echo ""
 	@echo "on-mac (develop from macOS)"
-	@echo "  on-mac-install       Install PlatformIO Core (Homebrew, pip fallback)"
+	@echo "  on-mac-install       Ensure Python 3.12 + PlatformIO (brew/pip)"
 	@echo "  on-mac-build         Sync web assets and build firmware"
 	@echo "  on-mac-deploy        Flash LittleFS + firmware to the ESP32"
 	@echo "  on-mac-ssh           SSH into the ESP32 (ESP32_HOST / ESP32_USER)"
@@ -45,6 +48,7 @@ help:
 	@echo "  on-esp32-deploy      Flash LittleFS + firmware to the ESP32"
 	@echo "  on-esp32-ssh         SSH into the ESP32 (ESP32_HOST / ESP32_USER)"
 	@echo ""
+	@echo "Python: 3.10–3.13 required (3.12 recommended)."
 	@echo "Variables (override on the command line):"
 	@echo "  PIO=$(PIO)"
 	@echo "  ESP32_ENV=$(ESP32_ENV)"
@@ -84,7 +88,7 @@ on-windows:
 	@$(MAKE) help | sed -n '/^on-windows/,/^on-mac/p' | sed '$$d'
 
 on-windows-install:
-	python -m pip install -U platformio
+	@bash "$(SCRIPTS)/ensure-deps-windows.sh"
 
 on-windows-build:
 	$(pio-build)
@@ -103,11 +107,7 @@ on-mac:
 	@$(MAKE) help | sed -n '/^on-mac/,/^on-esp32/p' | sed '$$d'
 
 on-mac-install:
-	@if command -v brew >/dev/null 2>&1; then \
-		brew install platformio; \
-	else \
-		python3 -m pip install -U platformio; \
-	fi
+	@bash "$(SCRIPTS)/ensure-deps-mac.sh"
 
 on-mac-build:
 	$(pio-build)
@@ -123,7 +123,7 @@ on-mac-ssh:
 # ===========================================================================
 
 on-esp32:
-	@$(MAKE) help | sed -n '/^on-esp32/,/^Variables/p' | sed '$$d'
+	@$(MAKE) help | sed -n '/^on-esp32/,/^Python:/p' | sed '$$d'
 
 on-esp32-install:
 	$(PIO) platform install espressif32

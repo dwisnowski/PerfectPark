@@ -32,9 +32,9 @@ flowchart LR
     end
 
     USB --> ESP
-    USB --> S1
-    USB --> S2
-    USB --> S3
+    ESP -->|VBUS 5V| S1
+    ESP -->|VBUS 5V| S2
+    ESP -->|VBUS 5V| S3
 
     ESP -->|GPIO 4 / 5| S1
     ESP -->|GPIO 6 / 7| S2
@@ -73,21 +73,22 @@ Target distances:
 
 | Spot | HC-SR04 pin | Connect to |
 |------|-------------|------------|
-| 1 | VCC | 5V |
+| 1 | VCC | ESP32 **VBUS** (USB 5 V) |
 | 1 | GND | GND |
 | 1 | Trig | ESP32 **GPIO 4** |
 | 1 | Echo | Voltage divider output → ESP32 **GPIO 5** |
-| 2 | VCC | 5V |
+| 2 | VCC | ESP32 **VBUS** (USB 5 V) |
 | 2 | GND | GND |
 | 2 | Trig | ESP32 **GPIO 6** |
 | 2 | Echo | Voltage divider output → ESP32 **GPIO 7** |
-| 3 | VCC | 5V |
+| 3 | VCC | ESP32 **VBUS** (USB 5 V) |
 | 3 | GND | GND |
 | 3 | Trig | ESP32 **GPIO 15** |
 | 3 | Echo | Voltage divider output → ESP32 **GPIO 16** |
 
-All spots share a common **GND** rail. Run **5V** and **GND** from the same supply
-that powers the ESP32-S3 board.
+All spots share a common **GND** rail. Power each HC-SR04 **VCC** from the board
+**VBUS** pin (the USB 5 V rail on ESP32-S3 DevKit boards; some silkscreens label
+this `5V` instead). Do **not** use **3V3** — a standard HC-SR04 needs ~5 V.
 
 ---
 
@@ -139,13 +140,13 @@ flowchart TB
     end
 
     subgraph ESP[ESP32-S3]
-        P5V[5V]
+        PVBUS[VBUS]
         PGND[GND]
         G4[GPIO 4]
         G5[GPIO 5]
     end
 
-    P5V --> VCC1
+    PVBUS --> VCC1
     PGND --> GND1
     G4 --> TRIG1
     ECHO1 --> R1A --> G5
@@ -166,7 +167,7 @@ flowchart TB
 ```
                     ESP32-S3 DevKitC-1
                  ┌───────────────────────┐
-      5V rail ───┤ 5V                    │
+   VBUS (5 V) ───┤ VBUS                  │
      GND rail ───┤ GND                   │
                  │ GPIO 4  ──────────────┼──► Spot 1 Trig
                  │ GPIO 5  ◄─────────────┼───  Spot 1 Echo (via divider)
@@ -176,7 +177,7 @@ flowchart TB
                  │ GPIO 16 ◄─────────────┼───  Spot 3 Echo (via divider)
                  └───────────────────────┘
                           │      │
-                       5V rail  GND rail
+                     VBUS rail  GND rail
                           │      │
             ┌─────────────┴──────┴─────────────┐
             │  HC-SR04   HC-SR04   HC-SR04    │
@@ -184,8 +185,8 @@ flowchart TB
             └────────────────────────────────┘
 ```
 
-Use a breadboard power rail for shared 5V/GND. Keep Trigger wires short and route
-Echo lines away from USB/power noise when possible.
+Use a breadboard power rail for shared VBUS/GND if wiring multiple sensors. Keep
+Trigger wires short and route Echo lines away from USB/power noise when possible.
 
 ---
 
@@ -193,9 +194,10 @@ Echo lines away from USB/power noise when possible.
 
 | Topic | Guidance |
 |-------|----------|
-| Supply | Use a stable **5 V / 1 A+** USB adapter |
-| ESP32-S3 | Powered via USB; onboard regulator supplies 3.3 V logic |
-| HC-SR04 | Each sensor draws a few mA active; 3 sensors on one 5V rail is fine |
+| Supply | Use a stable **5 V / 1 A+** USB adapter into the ESP32-S3 |
+| ESP32-S3 | Powered via USB; **VBUS** is the USB 5 V pin; onboard regulator supplies 3.3 V logic |
+| HC-SR04 VCC | Wire to **VBUS**, not **3V3**. Each sensor draws a few mA; 3 sensors on VBUS is fine |
+| VBUS caveat | VBUS is only live while the board is powered from USB |
 | Ground | Tie **all** sensor GND pins and ESP32 GND together |
 
 If sensors behave erratically at longer cable runs, add a **100 nF** decoupling

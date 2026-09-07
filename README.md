@@ -24,9 +24,9 @@ notes, estimated cost, and specific links for **Amazon**, **Adafruit**, and
 | Part | Qty | Notes |
 |------|-----|-------|
 | ESP32-S3 DevKitC-1 | 1 | N16R8 with PSRAM recommended |
-| HC-SR04 ultrasonic sensor | 1 per spot | 5 V module |
+| HC-SR04 ultrasonic sensor | 1 per spot | 5 V module; power VCC from board **VBUS** |
 | 1 kΩ + 2 kΩ resistors | 1 set per spot | Voltage divider on each Echo pin |
-| 5 V USB power | 1 | Stable supply for ESP + sensors |
+| 5 V USB power | 1 | Stable supply for ESP + sensors (via VBUS) |
 
 ### Default GPIO map
 
