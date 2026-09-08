@@ -214,6 +214,99 @@ h1 {
   font-size: 0.9rem;
 }
 
+.update-panel {
+  margin-top: 28px;
+  padding: 18px;
+  background: rgba(17, 24, 39, 0.92);
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+}
+
+.update-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.update-heading h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.update-warning {
+  margin: 12px 0 18px;
+  color: var(--approaching);
+  font-size: 0.9rem;
+}
+
+.update-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 14px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+}
+
+.update-form label {
+  font-weight: 700;
+}
+
+.update-form code {
+  color: var(--text);
+}
+
+.update-form input[type="file"] {
+  max-width: 100%;
+  color: var(--muted);
+}
+
+.update-form button {
+  align-self: flex-start;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 9px;
+  background: #2563eb;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.update-form button:disabled,
+.update-form input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.update-progress {
+  display: none;
+  height: 7px;
+  margin-top: 16px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #1f2937;
+}
+
+.update-progress.is-active {
+  display: block;
+}
+
+#update-progress-bar {
+  width: 0;
+  height: 100%;
+  background: #2563eb;
+  transition: width 120ms linear;
+}
+
 .footer {
   margin-top: 28px;
   text-align: center;
@@ -231,5 +324,13 @@ h1 {
 
   .summary {
     grid-template-columns: 1fr;
+  }
+
+  .update-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .update-heading {
+    flex-direction: column;
   }
 }

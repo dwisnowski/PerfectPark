@@ -36,6 +36,36 @@
 
       <section class="spots-grid" id="spots-grid"></section>
 
+      <section class="update-panel" aria-labelledby="update-title">
+        <div class="update-heading">
+          <div>
+            <p class="eyebrow">Trusted LAN only</p>
+            <h2 id="update-title">OTA Updates</h2>
+          </div>
+          <span id="update-status" class="muted" role="status">Ready</span>
+        </div>
+        <p class="update-warning">
+          Updates are not password protected. Only upload images you built for this device.
+        </p>
+        <div class="update-grid">
+          <form class="update-form" data-update-kind="firmware">
+            <label for="firmware-file">Firmware image</label>
+            <span class="muted">Select <code>firmware.bin</code></span>
+            <input id="firmware-file" type="file" accept=".bin,application/octet-stream" required />
+            <button type="submit">Upload firmware</button>
+          </form>
+          <form class="update-form" data-update-kind="filesystem">
+            <label for="filesystem-file">Dashboard image</label>
+            <span class="muted">Select <code>littlefs.bin</code></span>
+            <input id="filesystem-file" type="file" accept=".bin,application/octet-stream" required />
+            <button type="submit">Upload dashboard</button>
+          </form>
+        </div>
+        <div class="update-progress" aria-hidden="true">
+          <div id="update-progress-bar"></div>
+        </div>
+      </section>
+
       <footer class="footer muted">
         Auto-refreshes every 2 seconds · Target park distance ~3 ft
       </footer>

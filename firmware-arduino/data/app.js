@@ -22,6 +22,11 @@ const lastUpdated = document.getElementById("last-updated");
 const occupiedCount = document.getElementById("occupied-count");
 const availableCount = document.getElementById("available-count");
 const detectRange = document.getElementById("detect-range");
+const updateForms = Array.from(document.querySelectorAll(".update-form"));
+const updateStatus = document.getElementById("update-status");
+const updateProgress = document.querySelector(".update-progress");
+const updateProgressBar = document.getElementById("update-progress-bar");
+let refreshTimer;
 
 function formatDistance(spot) {
   if (!spot.valid || spot.distance_ft == null) {
@@ -80,5 +85,104 @@ async function refreshStatus() {
   }
 }
 
+function setUpdateControlsDisabled(disabled) {
+  updateForms.forEach((form) => {
+    Array.from(form.elements).forEach((control) => {
+      control.disabled = disabled;
+    });
+  });
+}
+
+function waitForDevice() {
+  updateStatus.textContent = "Waiting for device to restart…";
+  let attempts = 0;
+
+  const reconnectTimer = setInterval(async () => {
+    attempts += 1;
+    try {
+      const response = await fetch(`/api/status?ota=${Date.now()}`, { cache: "no-store" });
+      if (response.ok) {
+        clearInterval(reconnectTimer);
+        window.location.reload();
+      }
+    } catch (error) {
+      // A connection failure is expected while the ESP32 reboots.
+    }
+
+    if (attempts >= 45) {
+      clearInterval(reconnectTimer);
+      updateStatus.textContent = "Restart timed out; reload this page when the device is online";
+      setUpdateControlsDisabled(false);
+    }
+  }, 2000);
+}
+
+function uploadImage(kind, file) {
+  const endpoint = `/api/update/${kind}`;
+  const formData = new FormData();
+  formData.append("update", file, file.name);
+
+  setUpdateControlsDisabled(true);
+  clearInterval(refreshTimer);
+  updateStatus.textContent = `Uploading ${kind}…`;
+  updateProgress.classList.add("is-active");
+  updateProgress.setAttribute("aria-hidden", "false");
+  updateProgressBar.style.width = "0%";
+
+  const request = new XMLHttpRequest();
+  request.open("POST", endpoint);
+  request.upload.addEventListener("progress", (event) => {
+    if (event.lengthComputable) {
+      const percent = Math.round((event.loaded / event.total) * 100);
+      updateProgressBar.style.width = `${percent}%`;
+      updateStatus.textContent = `Uploading ${kind}: ${percent}%`;
+    }
+  });
+  request.addEventListener("load", () => {
+    let result = {};
+    try {
+      result = JSON.parse(request.responseText);
+    } catch (error) {
+      result.error = request.responseText || `HTTP ${request.status}`;
+    }
+
+    if (request.status >= 200 && request.status < 300 && result.ok) {
+      updateProgressBar.style.width = "100%";
+      waitForDevice();
+      return;
+    }
+
+    updateStatus.textContent = `Update failed: ${result.error || `HTTP ${request.status}`}`;
+    setUpdateControlsDisabled(false);
+    refreshTimer = setInterval(refreshStatus, REFRESH_MS);
+  });
+  request.addEventListener("error", () => {
+    updateStatus.textContent = "Upload connection failed";
+    setUpdateControlsDisabled(false);
+    refreshTimer = setInterval(refreshStatus, REFRESH_MS);
+  });
+  request.send(formData);
+}
+
+updateForms.forEach((form) => {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const kind = form.dataset.updateKind;
+    const file = form.querySelector('input[type="file"]').files[0];
+    const expectedFilename = kind === "filesystem" ? "littlefs.bin" : "firmware.bin";
+
+    if (!file || file.name.toLowerCase() !== expectedFilename) {
+      updateStatus.textContent = `Select ${expectedFilename} for this update`;
+      return;
+    }
+
+    if (!window.confirm(`Upload ${file.name} as the ${kind} image? The device will reboot.`)) {
+      return;
+    }
+
+    uploadImage(kind, file);
+  });
+});
+
 refreshStatus();
-setInterval(refreshStatus, REFRESH_MS);
+refreshTimer = setInterval(refreshStatus, REFRESH_MS);
