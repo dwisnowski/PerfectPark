@@ -16,11 +16,13 @@ ESP32_ENV   ?= esp32-s3-devkitc-1
 ESP32_HOST  ?= perfectpark.local
 ESP32_USER  ?= root
 UPLOAD_PORT ?=
+OTA_ENV     ?= $(ESP32_ENV)-ota
+OTA_REBOOT_WAIT ?= 8
 
 .PHONY: help sync-web \
 	on-windows on-windows-install on-windows-build on-windows-deploy on-windows-ssh \
 	on-mac on-mac-install on-mac-build on-mac-deploy on-mac-ssh \
-	on-esp32 on-esp32-install on-esp32-build on-esp32-deploy on-esp32-ssh
+	on-esp32 on-esp32-install on-esp32-build on-esp32-deploy on-esp32-ota on-esp32-ssh
 
 help:
 	@echo "PerfectPark Make targets"
@@ -43,14 +45,17 @@ help:
 	@echo "  on-esp32-install     Install Espressif32 platform / board packages"
 	@echo "  on-esp32-build       Sync web assets and build firmware"
 	@echo "  on-esp32-deploy      Flash LittleFS + firmware to the ESP32"
+	@echo "  on-esp32-ota         Upload LittleFS + firmware over WiFi"
 	@echo "  on-esp32-ssh         SSH into the ESP32 (ESP32_HOST / ESP32_USER)"
 	@echo ""
 	@echo "Variables (override on the command line):"
 	@echo "  PIO=$(PIO)"
 	@echo "  ESP32_ENV=$(ESP32_ENV)"
+	@echo "  OTA_ENV=$(OTA_ENV)"
 	@echo "  ESP32_HOST=$(ESP32_HOST)"
 	@echo "  ESP32_USER=$(ESP32_USER)"
 	@echo "  UPLOAD_PORT=$(UPLOAD_PORT)   e.g. COM3 or /dev/cu.usbmodem*"
+	@echo "  OTA_REBOOT_WAIT=$(OTA_REBOOT_WAIT)   seconds between OTA uploads"
 
 # ---------------------------------------------------------------------------
 # Shared helpers
@@ -70,6 +75,14 @@ define pio-deploy
 	$(MAKE) sync-web
 	cd "$(FIRMWARE)" && $(PIO) run -e $(ESP32_ENV) -t uploadfs $(if $(UPLOAD_PORT),--upload-port $(UPLOAD_PORT),)
 	cd "$(FIRMWARE)" && $(PIO) run -e $(ESP32_ENV) -t upload $(if $(UPLOAD_PORT),--upload-port $(UPLOAD_PORT),)
+endef
+
+define pio-ota
+	$(MAKE) sync-web
+	cd "$(FIRMWARE)" && $(PIO) run -e $(OTA_ENV) -t uploadfs --upload-port "$(ESP32_HOST)"
+	@echo "Waiting $(OTA_REBOOT_WAIT)s for $(ESP32_HOST) to restart..."
+	@sleep "$(OTA_REBOOT_WAIT)"
+	cd "$(FIRMWARE)" && $(PIO) run -e $(OTA_ENV) -t upload --upload-port "$(ESP32_HOST)"
 endef
 
 define esp32-ssh
@@ -134,6 +147,9 @@ on-esp32-build:
 
 on-esp32-deploy:
 	$(pio-deploy)
+
+on-esp32-ota:
+	$(pio-ota)
 
 on-esp32-ssh:
 	$(esp32-ssh)

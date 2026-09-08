@@ -3,6 +3,7 @@
 #include <WiFiManager.h>
 
 #include "config.h"
+#include "ota_update.h"
 #include "parking_manager.h"
 #include "web_server.h"
 
@@ -39,6 +40,7 @@ void setup() {
   parkingManager.begin();
   connectWifi();
   startWebServer(parkingManager);
+  beginOtaUpdates();
 
   Serial.printf("Monitoring %u parking spot(s)\n", parkingManager.spotCount());
   Serial.printf("Detect range: %.1f ft, park target: ~%.1f ft\n", cmToFeet(DETECT_CM),
@@ -46,5 +48,6 @@ void setup() {
 }
 
 void loop() {
+  serviceOtaUpdates();
   parkingManager.update();
 }

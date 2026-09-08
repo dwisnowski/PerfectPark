@@ -5,6 +5,8 @@
 #include <LittleFS.h>
 #include <WiFi.h>
 
+#include "ota_update.h"
+
 namespace {
 
 AsyncWebServer server(80);
@@ -75,6 +77,7 @@ void startWebServer(ParkingManager &manager) {
   }
 
   server.on("/api/status", HTTP_GET, handleApiStatus);
+  registerOtaHttpRoutes(server);
 
   server.serveStatic("/", LittleFS, "/").setDefaultFile("index.html").setCacheControl("max-age=600");
   server.onNotFound(handleNotFound);
