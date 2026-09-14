@@ -20,8 +20,8 @@ OTA_ENV     ?= $(ESP32_ENV)-ota
 OTA_REBOOT_WAIT ?= 8
 
 .PHONY: help sync-web \
-	on-windows on-windows-install on-windows-build on-windows-deploy on-windows-ssh \
-	on-mac on-mac-install on-mac-build on-mac-deploy on-mac-ssh \
+	on-windows on-windows-install on-windows-build on-windows-deploy on-windows-ssh on-windows-serial \
+	on-mac on-mac-install on-mac-build on-mac-deploy on-mac-ssh on-mac-serial \
 	on-esp32 on-esp32-install on-esp32-build on-esp32-deploy on-esp32-ota on-esp32-ssh
 
 help:
@@ -34,12 +34,14 @@ help:
 	@echo "  on-windows-build     Sync web assets and build firmware"
 	@echo "  on-windows-deploy    Flash LittleFS + firmware to the ESP32"
 	@echo "  on-windows-ssh       SSH into the ESP32 (ESP32_HOST / ESP32_USER)"
+	@echo "  on-windows-serial    Open a UART serial monitor to the ESP32"
 	@echo ""
 	@echo "on-mac (develop from macOS)"
 	@echo "  on-mac-install       Install PlatformIO Core (Homebrew, pip fallback)"
 	@echo "  on-mac-build         Sync web assets and build firmware"
 	@echo "  on-mac-deploy        Flash LittleFS + firmware to the ESP32"
 	@echo "  on-mac-ssh           SSH into the ESP32 (ESP32_HOST / ESP32_USER)"
+	@echo "  on-mac-serial        Open a UART serial monitor to the ESP32"
 	@echo ""
 	@echo "on-esp32 (device-focused)"
 	@echo "  on-esp32-install     Install Espressif32 platform / board packages"
@@ -89,6 +91,10 @@ define esp32-ssh
 	ssh "$(ESP32_USER)@$(ESP32_HOST)"
 endef
 
+define pio-serial
+	cd "$(FIRMWARE)" && $(PIO) device monitor -e $(ESP32_ENV) $(if $(UPLOAD_PORT),--port $(UPLOAD_PORT),)
+endef
+
 # ===========================================================================
 # on-windows
 # ===========================================================================
@@ -109,6 +115,9 @@ on-windows-deploy:
 
 on-windows-ssh:
 	$(esp32-ssh)
+
+on-windows-serial:
+	$(pio-serial)
 
 # ===========================================================================
 # on-mac
@@ -132,6 +141,9 @@ on-mac-deploy:
 
 on-mac-ssh:
 	$(esp32-ssh)
+
+on-mac-serial:
+	$(pio-serial)
 
 # ===========================================================================
 # on-esp32
