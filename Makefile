@@ -30,7 +30,7 @@ help:
 	@echo "  help                 Show this help"
 	@echo ""
 	@echo "on-windows (develop from Windows)"
-	@echo "  on-windows-install   Install PlatformIO Core (pip)"
+	@echo "  on-windows-install   Install Python (winget) + PlatformIO Core (pip)"
 	@echo "  on-windows-build     Sync web assets and build firmware"
 	@echo "  on-windows-deploy    Flash LittleFS + firmware to the ESP32"
 	@echo "  on-windows-ssh       SSH into the ESP32 (ESP32_HOST / ESP32_USER)"
@@ -96,8 +96,10 @@ endef
 on-windows:
 	@$(MAKE) help | sed -n '/^on-windows/,/^on-mac/p' | sed '$$d'
 
+# Chocolatey make on Windows expects sh.exe, which is often missing from PATH.
+# Use a single CreateProcess-friendly command that runs PowerShell instead.
 on-windows-install:
-	python -m pip install -U platformio
+	powershell -NoProfile -ExecutionPolicy Bypass -File "$(ROOT)/scripts/on-windows-install.ps1"
 
 on-windows-build:
 	$(pio-build)

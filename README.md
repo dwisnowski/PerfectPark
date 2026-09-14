@@ -131,6 +131,49 @@ does not boot, reconnect it over USB and run the normal deploy target:
 make on-esp32-deploy UPLOAD_PORT=/dev/cu.usbmodem...
 ```
 
+## OTA updates
+
+OTA is available after the first USB deployment. The default hostname is
+`perfectpark.local`; use the device IP if mDNS is unavailable.
+
+To update both the LittleFS dashboard and firmware from PlatformIO:
+
+```bash
+make on-esp32-ota ESP32_HOST=perfectpark.local
+```
+
+For the 2-spot environment:
+
+```bash
+make on-esp32-ota ESP32_ENV=esp32-s3-devkitc-1-2spots
+```
+
+The target uploads LittleFS first, waits for the ESP32 to restart, and then
+uploads firmware. Override `OTA_REBOOT_WAIT` if the device takes longer than
+eight seconds to reconnect.
+
+You can also upload images from the **OTA Updates** panel in the dashboard.
+Build the selected environment and its filesystem image first:
+
+```bash
+cd firmware-arduino
+pio run -e esp32-s3-devkitc-1
+pio run -e esp32-s3-devkitc-1 -t buildfs
+```
+
+Then select:
+
+- `.pio/build/esp32-s3-devkitc-1/firmware.bin` for firmware
+- `.pio/build/esp32-s3-devkitc-1/littlefs.bin` for dashboard assets
+
+OTA has no password and is intended only for a trusted private LAN. Anyone who
+can reach the device can replace its software. If an update fails or the device
+does not boot, reconnect it over USB and run the normal deploy target:
+
+```bash
+make on-esp32-deploy UPLOAD_PORT=/dev/cu.usbmodem...
+```
+
 ## API example
 
 `GET /api/status`
