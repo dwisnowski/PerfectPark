@@ -9,20 +9,32 @@
 #include "web_server.h"
 
 ParkingManager parkingManager;
+bool wifiJustConfigured = false;
 
 void connectWifi() {
+  // WiFiManager's captive portal binds port 80 and does not release it cleanly on
+  // ESP32. After a portal session, reboot so AsyncWebServer can bind successfully.
+  wifiJustConfigured = false;
+
   WiFiManager wifiManager;
   wifiManager.setConfigPortalBlocking(true);
   wifiManager.setConnectTimeout(20);
   wifiManager.setConnectRetries(2);
   wifiManager.setCaptivePortalEnable(true);
   wifiManager.setTitle("PerfectPark WiFi Setup");
+  wifiManager.setSaveConfigCallback([]() { wifiJustConfigured = true; });
 
   Serial.println("Starting WiFiManager portal if needed...");
   showWifiSetupInstructions();
   if (!wifiManager.autoConnect(WIFI_PORTAL_NAME)) {
     Serial.println("WiFi connection failed, restarting...");
     delay(2000);
+    ESP.restart();
+  }
+
+  if (wifiJustConfigured) {
+    Serial.println("WiFi saved; restarting so the web server can bind port 80...");
+    delay(500);
     ESP.restart();
   }
 
