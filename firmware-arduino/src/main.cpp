@@ -3,6 +3,7 @@
 #include <WiFiManager.h>
 
 #include "config.h"
+#include "display.h"
 #include "ota_update.h"
 #include "parking_manager.h"
 #include "web_server.h"
@@ -18,6 +19,7 @@ void connectWifi() {
   wifiManager.setTitle("PerfectPark WiFi Setup");
 
   Serial.println("Starting WiFiManager portal if needed...");
+  showWifiSetupInstructions();
   if (!wifiManager.autoConnect(WIFI_PORTAL_NAME)) {
     Serial.println("WiFi connection failed, restarting...");
     delay(2000);
@@ -28,6 +30,7 @@ void connectWifi() {
   Serial.println(WiFi.SSID());
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  showWifiConnected(WiFi.SSID().c_str(), WiFi.localIP());
 }
 
 void setup() {
@@ -36,6 +39,7 @@ void setup() {
 
   Serial.println();
   Serial.println("PerfectPark v1 starting");
+  beginDisplay();
 
   parkingManager.begin();
   connectWifi();

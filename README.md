@@ -8,6 +8,7 @@ self-hosted web dashboard, and a JSON status API.
 - Multiple parking spots (default: 3, configurable)
 - Vehicle detection up to ~7 ft (~213 cm)
 - Target parked distance ~3 ft (~91 cm)
+- Shows first-boot WiFi setup instructions on the built-in display
 - Joins home WiFi with a captive-portal setup flow
 - Serves a mobile-friendly dashboard from the ESP32-S3
 - Exposes live status at `GET /api/status`
@@ -24,7 +25,7 @@ notes, estimated cost, and specific links for **Amazon**, **Adafruit**, and
 
 | Part | Qty | Notes |
 |------|-----|-------|
-| ESP32-S3 DevKitC-1 | 1 | N16R8 with PSRAM recommended |
+| Waveshare ESP32-S3-Touch-LCD-1.47 | 1 | 172×320 built-in touch display |
 | HC-SR04 ultrasonic sensor | 1 per spot | 5 V module |
 | 1 kΩ + 2 kΩ resistors | 1 set per spot | Voltage divider on each Echo pin |
 | 5 V USB power | 1 | Stable supply for ESP + sensors |
@@ -79,8 +80,56 @@ pio run -t upload
 pio device monitor
 ```
 
-4. On first boot, connect to the `PerfectPark-Setup` WiFi portal and enter your home network credentials.
-5. Open the Serial Monitor for the device IP, then visit `http://<device-ip>/`.
+4. On first boot, follow the instructions shown on the built-in display:
+   - Open WiFi settings on your phone.
+   - Join `PerfectPark-Setup`.
+   - Enter your home network credentials in the captive portal. If it does not
+     open automatically, visit `http://192.168.4.1/`.
+5. After connection, the display and Serial Monitor show the device IP. Visit
+   `http://<device-ip>/`.
+
+## OTA updates
+
+OTA is available after the first USB deployment. The default hostname is
+`perfectpark.local`; use the device IP if mDNS is unavailable.
+
+To update both the LittleFS dashboard and firmware from PlatformIO:
+
+```bash
+make on-esp32-ota ESP32_HOST=perfectpark.local
+```
+
+For the 2-spot environment:
+
+```bash
+make on-esp32-ota ESP32_ENV=esp32-s3-devkitc-1-2spots
+```
+
+The target uploads LittleFS first, waits for the ESP32 to restart, and then
+uploads firmware. Override `OTA_REBOOT_WAIT` if the device takes longer than
+eight seconds to reconnect.
+
+You can also upload images from the **OTA Updates** panel in the dashboard.
+Build the selected environment and its filesystem image first:
+
+```bash
+cd firmware-arduino
+pio run -e esp32-s3-devkitc-1
+pio run -e esp32-s3-devkitc-1 -t buildfs
+```
+
+Then select:
+
+- `.pio/build/esp32-s3-devkitc-1/firmware.bin` for firmware
+- `.pio/build/esp32-s3-devkitc-1/littlefs.bin` for dashboard assets
+
+OTA has no password and is intended only for a trusted private LAN. Anyone who
+can reach the device can replace its software. If an update fails or the device
+does not boot, reconnect it over USB and run the normal deploy target:
+
+```bash
+make on-esp32-deploy UPLOAD_PORT=/dev/cu.usbmodem...
+```
 
 ## OTA updates
 
