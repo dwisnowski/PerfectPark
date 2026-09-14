@@ -20,6 +20,7 @@ and match.
 
 | Part | Qty | Amazon | Adafruit | Notes |
 |------|-----|--------|----------|-------|
+| **Waveshare ESP32-S3-Touch-LCD-1.47** | 1 | [Waveshare ESP32-S3 1.47-inch Touch LCD](https://www.amazon.com/s?k=Waveshare+ESP32-S3-Touch-LCD-1.47) | — | **PerfectPark board.** Includes 16 MB flash, 8 MB PSRAM, and the 172×320 display used for setup instructions. |
 | ESP32-S3-DevKitC-1 **N8R8** (8 MB flash, 8 MB PSRAM) | 1 | [Stemedu ESP32-S3-DevKitC-1 N8R8](https://www.amazon.com/Stemedu-ESP32-S3-DevKitC-1-Development-ESP32-S3-WROOM-1-Microcontroller/dp/B09VBFMTDS) | [ESP32-S3-DevKitC-1 — select **8MB Flash 8MB PSRAM** variant](https://www.adafruit.com/product/5312) | **Best match** for the firmware `platformio.ini` target. Confirm listing says **ESP32-S3** with **8 MB PSRAM**. |
 | ESP32-S3 DevKitC-1 (Espressif listing) | 1 | [Espressif ESP32-S3-DevKitC-1-N8R8](https://www.amazon.com/Espressif-ESP32-S3-DevKitC-1-N8R8-Development-Board/dp/B09MHP42LY) | — | Official Espressif board. Check USB connector type (Micro-USB vs USB-C) and buy the matching cable. |
 | Adafruit Metro ESP32-S3 (alternate) | 1 | — | [Metro ESP32-S3 — 16 MB flash, 8 MB PSRAM](https://www.adafruit.com/product/5500) | Works with Arduino, but **GPIO pins differ** from DevKitC-1. Update `config.h` if you use this board. |
@@ -286,7 +287,7 @@ or ESP32-C3) and includes enough **PSRAM** for the web dashboard (8 MB recommend
 |------|--------|
 | Raspberry Pi Pico | Firmware targets ESP32-S3 |
 | Separate 3.3 V regulator | ESP32 board includes one |
-| OLED display | Web dashboard replaces on-device display |
+| Separate OLED display | Setup instructions use the Waveshare board's built-in LCD |
 | External WiFi module | WiFi is built into ESP32-S3 |
 | Cloud subscription | Dashboard runs on the device |
 

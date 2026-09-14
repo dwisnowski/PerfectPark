@@ -1,8 +1,8 @@
 # PerfectPark Wiring Diagram
 
-This guide covers the default **3-spot** wiring for an **ESP32-S3 DevKitC-1** and
-**HC-SR04** ultrasonic sensors. The 2-spot build uses the same pattern for Spot 1
-and Spot 2 only.
+This guide covers the default **3-spot** wiring for a
+**Waveshare ESP32-S3-Touch-LCD-1.47** and **HC-SR04** ultrasonic sensors. The
+2-spot build uses the same pattern for Spot 1 and Spot 2 only.
 
 ## System overview
 
@@ -16,7 +16,7 @@ flowchart LR
     end
 
     subgraph Controller
-        ESP[ESP32-S3 DevKitC-1]
+        ESP[Waveshare ESP32-S3 Touch LCD]
     end
 
     subgraph Spot1[Spot 1]
@@ -164,7 +164,7 @@ flowchart TB
 ## Breadboard wiring (recommended for v1)
 
 ```
-                    ESP32-S3 DevKitC-1
+              Waveshare ESP32-S3-Touch-LCD-1.47
                  ┌───────────────────────┐
       5V rail ───┤ 5V                    │
      GND rail ───┤ GND                   │
@@ -210,7 +210,7 @@ See [shopping-list.md](shopping-list.md) for the full parts list, quantities for
 
 | Part | Qty (3-spot) |
 |------|----------------|
-| ESP32-S3 DevKitC-1 | 1 |
+| Waveshare ESP32-S3-Touch-LCD-1.47 | 1 |
 | HC-SR04 | 3 |
 | 1 kΩ resistor | 3 |
 | 2 kΩ resistor | 3 |
